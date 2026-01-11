@@ -76,7 +76,7 @@ export default function Marriage() {
           .signature-line { border-top: 1px solid #333; margin-bottom: 8px; height: 60px; }
           .signature-label { font-size: 12px; color: #666; text-transform: uppercase; letter-spacing: 1px; }
           .seal-block { text-align: center; width: 150px; }
-          .seal-circle { width: 100px; height: 100px; border: 2px dashed #1e3a5f; border-radius: 50%; margin: 0 auto 8px; display: flex; align-items: center; justify-content: center; color: #1e3a5f; font-size: 11px; }
+          .seal-placeholder { height: 80px; margin-bottom: 8px; }
         </style></head>
         <body>
           <div class="certificate">
@@ -107,15 +107,15 @@ export default function Marriage() {
                 </div>
               </div>
               <div class="marriage-date">
-                <div class="date-label">United in Holy Matrimony on</div>
+                <div class="date-label">United in Holy Matrimony, under the Catholic Law</div>
                 <div class="date-value">${format(new Date(record.dateOfMarriage), 'MMMM d, yyyy')}</div>
               </div>
             </div>
             <p class="issued">Issued on ${format(new Date(), 'MMMM d, yyyy')}</p>
             <div class="footer">
               <div class="seal-block">
-                <div class="seal-circle">Parish Seal</div>
-                <div class="signature-label">Official Seal</div>
+                <div class="seal-placeholder"></div>
+                <div class="signature-label">Parish Seal</div>
               </div>
               <div class="signature-block">
                 <div class="signature-line"></div>

@@ -45,12 +45,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1000));
     
-    const foundUser = DEMO_USERS.find(
-      u => u.email.toLowerCase() === email.toLowerCase() && u.password === password
-    );
-    
-    if (foundUser) {
-      setUser(foundUser.user);
+    // Allow any email/password for now
+    if (email && password) {
+      const userName = email.split('@')[0].replace(/[._]/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+      setUser({
+        id: crypto.randomUUID(),
+        email: email,
+        name: userName,
+        role: 'priest',
+      });
       setIsLoading(false);
       return true;
     }

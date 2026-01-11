@@ -36,7 +36,7 @@ export default function Login() {
     if (success) {
       toast({
         title: 'Welcome!',
-        description: 'You have successfully logged in.',
+        description: 'You have successfully signed in.',
       });
       navigate(from, { replace: true });
     } else {
@@ -69,10 +69,10 @@ export default function Login() {
           <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-white/10 backdrop-blur-sm mb-6">
             <Church className="h-10 w-10 text-accent" />
           </div>
-          <h1 className="text-4xl md:text-5xl font-serif font-bold text-white mb-3">
+          <h1 className="text-4xl md:text-5xl font-serif font-bold text-accent mb-3">
             Church Certificate
           </h1>
-          <p className="text-lg text-white/70 max-w-md">
+          <p className="text-lg text-accent/80 max-w-md">
             Management System for Baptism, Marriage & Death Certificates
           </p>
         </div>
@@ -80,9 +80,9 @@ export default function Login() {
         {/* Login Card */}
         <Card className="w-full max-w-md glass animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
           <CardHeader className="text-center pb-4">
-            <CardTitle className="text-2xl font-serif">Welcome Back</CardTitle>
+            <CardTitle className="text-2xl font-serif">Welcome</CardTitle>
             <CardDescription>
-              Sign in to access the certificate management system
+              Sign in for existing users • Sign up for new users
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -138,15 +138,6 @@ export default function Login() {
               </Button>
             </form>
 
-            <div className="mt-6 p-4 bg-muted/50 rounded-lg">
-              <p className="text-sm text-muted-foreground text-center mb-2">
-                <strong>Demo Credentials:</strong>
-              </p>
-              <p className="text-xs text-muted-foreground text-center">
-                Email: priest@church.com<br />
-                Password: password123
-              </p>
-            </div>
           </CardContent>
         </Card>
 

@@ -4,11 +4,7 @@ import {
   Droplets, 
   Heart, 
   Cross, 
-  Plus, 
-  FileText, 
-  TrendingUp,
-  Calendar,
-  Users
+  FileText
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -52,35 +48,6 @@ export default function Dashboard() {
     },
   ];
 
-  const quickActions = [
-    { label: 'New Baptism', icon: Droplets, link: '/baptism?action=add', color: 'bg-blue-500 hover:bg-blue-600' },
-    { label: 'New Marriage', icon: Heart, link: '/marriage?action=add', color: 'bg-pink-500 hover:bg-pink-600' },
-    { label: 'New Death Record', icon: Cross, link: '/death?action=add', color: 'bg-gray-600 hover:bg-gray-700' },
-  ];
-
-  // Get recent activity (last 5 records across all types)
-  const allRecords = [
-    ...baptismRecords.map(r => ({ ...r, recordType: 'Baptism' as const })),
-    ...marriageRecords.map(r => ({ ...r, recordType: 'Marriage' as const })),
-    ...deathRecords.map(r => ({ ...r, recordType: 'Death' as const })),
-  ].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-    .slice(0, 5);
-
-  const getRecordName = (record: typeof allRecords[0]) => {
-    if (record.recordType === 'Marriage') {
-      return `${(record as any).groomName} & ${(record as any).brideName}`;
-    }
-    return (record as any).name;
-  };
-
-  const getRecordIcon = (type: string) => {
-    switch (type) {
-      case 'Baptism': return <Droplets className="h-4 w-4 text-blue-500" />;
-      case 'Marriage': return <Heart className="h-4 w-4 text-pink-500" />;
-      case 'Death': return <Cross className="h-4 w-4 text-gray-500" />;
-      default: return null;
-    }
-  };
 
   return (
     <DashboardLayout>
@@ -122,75 +89,6 @@ export default function Dashboard() {
           })}
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
-          {/* Quick Actions */}
-          <Card className="lg:col-span-1 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
-            <CardHeader>
-              <CardTitle className="text-lg font-semibold flex items-center gap-2">
-                <Plus className="h-5 w-5" />
-                Quick Actions
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              {quickActions.map((action) => {
-                const Icon = action.icon;
-                return (
-                  <Link key={action.label} to={action.link}>
-                    <Button
-                      className={`w-full justify-start gap-3 ${action.color} text-white`}
-                    >
-                      <Icon className="h-5 w-5" />
-                      {action.label}
-                    </Button>
-                  </Link>
-                );
-              })}
-            </CardContent>
-          </Card>
-
-          {/* Recent Activity */}
-          <Card className="lg:col-span-2 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-            <CardHeader>
-              <CardTitle className="text-lg font-semibold flex items-center gap-2">
-                <TrendingUp className="h-5 w-5" />
-                Recent Activity
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              {allRecords.length > 0 ? (
-                <div className="space-y-4">
-                  {allRecords.map((record, index) => (
-                    <div
-                      key={`${record.recordType}-${record.id}`}
-                      className="flex items-center gap-4 p-3 rounded-lg bg-muted/50 hover:bg-muted transition-colors"
-                    >
-                      <div className="p-2 rounded-full bg-background">
-                        {getRecordIcon(record.recordType)}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="font-medium truncate">{getRecordName(record)}</p>
-                        <p className="text-sm text-muted-foreground">
-                          {record.recordType} Record
-                        </p>
-                      </div>
-                      <div className="text-right text-sm text-muted-foreground">
-                        <div className="flex items-center gap-1">
-                          <Calendar className="h-3 w-3" />
-                          {format(new Date(record.createdAt), 'MMM d, yyyy')}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="text-center py-8 text-muted-foreground">
-                  <Users className="h-12 w-12 mx-auto mb-3 opacity-50" />
-                  <p>No records yet. Start by adding your first record!</p>
-                </div>
-              )}
-            </CardContent>
-          </Card>
-        </div>
 
         {/* Info Banner */}
         <Card className="bg-primary/5 border-primary/20 animate-fade-in-up" style={{ animationDelay: '0.5s' }}>

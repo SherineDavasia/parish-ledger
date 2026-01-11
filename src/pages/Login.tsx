@@ -126,16 +126,21 @@ export default function Login() {
                 </div>
               </div>
 
-              <Button type="submit" className="w-full" size="lg" disabled={isLoading}>
-                {isLoading ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Signing in...
-                  </>
-                ) : (
-                  'Sign In'
-                )}
-              </Button>
+              <div className="flex gap-3">
+                <Button type="submit" className="flex-1" size="lg" disabled={isLoading}>
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Signing in...
+                    </>
+                  ) : (
+                    'Sign In'
+                  )}
+                </Button>
+                <Button type="submit" variant="outline" className="flex-1" size="lg" disabled={isLoading}>
+                  Sign Up
+                </Button>
+              </div>
             </form>
 
           </CardContent>

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Cross, Plus, Search, FileText, Trash2 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Cross, Plus, Search, FileText, Trash2, ArrowLeft } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -12,6 +13,7 @@ import { useToast } from '@/hooks/use-toast';
 import { format } from 'date-fns';
 
 export default function Death() {
+  const navigate = useNavigate();
   const { deathRecords, addDeathRecord, deleteDeathRecord } = useRecords();
   const { toast } = useToast();
   const [isOpen, setIsOpen] = useState(false);
@@ -35,11 +37,60 @@ export default function Death() {
     const printWindow = window.open('', '_blank');
     if (printWindow) {
       printWindow.document.write(`<html><head><title>Death Certificate</title>
-        <style>body{font-family:Georgia,serif;padding:40px;text-align:center;}.certificate{border:3px double #1e3a5f;padding:40px;max-width:700px;margin:auto;}h1{color:#1e3a5f;}.details{text-align:left;margin:30px 0;line-height:2;}</style></head>
-        <body><div class="certificate"><h1>Certificate of Death</h1><h2>St. Mary's Catholic Church</h2>
-        <div class="details"><p><strong>Name:</strong> ${record.name}</p><p><strong>Father:</strong> ${record.fatherName}</p><p><strong>Mother:</strong> ${record.motherName}</p>
-        <p><strong>Date of Death:</strong> ${format(new Date(record.dateOfDeath), 'MMMM d, yyyy')}</p></div>
-        <p>Issued on ${format(new Date(), 'MMMM d, yyyy')}</p></div></body></html>`);
+        <style>
+          @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lora:wght@400;500&display=swap');
+          * { margin: 0; padding: 0; box-sizing: border-box; }
+          body { font-family: 'Lora', Georgia, serif; padding: 20px; background: #f5f5f5; }
+          .certificate { 
+            max-width: 800px; margin: auto; background: #fff; padding: 60px; position: relative;
+            border: 2px solid #1e3a5f; box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+          }
+          .certificate::before {
+            content: ''; position: absolute; top: 10px; left: 10px; right: 10px; bottom: 10px;
+            border: 1px solid #666; pointer-events: none;
+          }
+          .header { text-align: center; margin-bottom: 40px; padding-bottom: 20px; border-bottom: 2px solid #666; }
+          .title { font-family: 'Playfair Display', serif; font-size: 32px; color: #1e3a5f; font-weight: 700; letter-spacing: 2px; margin-bottom: 10px; }
+          .subtitle { font-size: 14px; color: #666; letter-spacing: 4px; text-transform: uppercase; }
+          .content { padding: 30px 0; }
+          .field { display: flex; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px dotted #ccc; }
+          .field-label { width: 180px; font-weight: 500; color: #1e3a5f; }
+          .field-value { flex: 1; color: #333; }
+          .issued { text-align: center; margin-top: 30px; font-style: italic; color: #666; font-size: 14px; }
+          .footer { display: flex; justify-content: space-between; margin-top: 60px; padding-top: 40px; }
+          .signature-block { text-align: center; width: 200px; }
+          .signature-line { border-top: 1px solid #333; margin-bottom: 8px; height: 60px; }
+          .signature-label { font-size: 12px; color: #666; text-transform: uppercase; letter-spacing: 1px; }
+          .seal-block { text-align: center; width: 150px; }
+          .seal-circle { width: 100px; height: 100px; border: 2px dashed #1e3a5f; border-radius: 50%; margin: 0 auto 8px; display: flex; align-items: center; justify-content: center; color: #1e3a5f; font-size: 11px; }
+        </style></head>
+        <body>
+          <div class="certificate">
+            <div class="header">
+              <div class="title">Certificate of Death</div>
+              <div class="subtitle">Official Church Record</div>
+            </div>
+            <div class="content">
+              <div class="field"><span class="field-label">Full Name</span><span class="field-value">${record.name}</span></div>
+              <div class="field"><span class="field-label">Father's Name</span><span class="field-value">${record.fatherName}</span></div>
+              <div class="field"><span class="field-label">Mother's Name</span><span class="field-value">${record.motherName}</span></div>
+              ${record.baptismName ? `<div class="field"><span class="field-label">Baptism Name</span><span class="field-value">${record.baptismName}</span></div>` : ''}
+              ${record.dateOfBirth ? `<div class="field"><span class="field-label">Date of Birth</span><span class="field-value">${format(new Date(record.dateOfBirth), 'MMMM d, yyyy')}</span></div>` : ''}
+              <div class="field"><span class="field-label">Date of Death</span><span class="field-value">${format(new Date(record.dateOfDeath), 'MMMM d, yyyy')}</span></div>
+            </div>
+            <p class="issued">Issued on ${format(new Date(), 'MMMM d, yyyy')}</p>
+            <div class="footer">
+              <div class="seal-block">
+                <div class="seal-circle">Parish Seal</div>
+                <div class="signature-label">Official Seal</div>
+              </div>
+              <div class="signature-block">
+                <div class="signature-line"></div>
+                <div class="signature-label">Parish Priest Signature</div>
+              </div>
+            </div>
+          </div>
+        </body></html>`);
       printWindow.document.close(); printWindow.print();
     }
   };
@@ -47,6 +98,9 @@ export default function Death() {
   return (
     <DashboardLayout>
       <div className="p-6 lg:p-8 space-y-6">
+        <Button variant="ghost" size="sm" onClick={() => navigate('/dashboard')} className="mb-2">
+          <ArrowLeft className="h-4 w-4 mr-2" /> Back to Dashboard
+        </Button>
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div><h1 className="text-3xl font-serif font-bold flex items-center gap-3"><Cross className="h-8 w-8 text-gray-500" /> Death Records</h1><p className="text-muted-foreground mt-1">Manage death certificates</p></div>
           <Dialog open={isOpen} onOpenChange={setIsOpen}>

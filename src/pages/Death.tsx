@@ -14,7 +14,7 @@ import { format } from 'date-fns';
 
 export default function Death() {
   const navigate = useNavigate();
-  const { deathRecords, addDeathRecord, deleteDeathRecord } = useRecords();
+  const { deathRecords, addDeathRecord, deleteDeathRecord, churchSettings } = useRecords();
   const { toast } = useToast();
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState('');
@@ -50,8 +50,8 @@ export default function Death() {
             border: 1px solid #666; pointer-events: none;
           }
           .header { text-align: center; margin-bottom: 40px; padding-bottom: 20px; border-bottom: 2px solid #666; }
-          .title { font-family: 'Playfair Display', serif; font-size: 32px; color: #1e3a5f; font-weight: 700; letter-spacing: 2px; margin-bottom: 10px; }
-          .subtitle { font-size: 14px; color: #666; letter-spacing: 4px; text-transform: uppercase; }
+          .church-name { font-family: 'Playfair Display', serif; font-size: 24px; color: #1e3a5f; font-weight: 600; letter-spacing: 1px; margin-bottom: 8px; }
+          .title { font-family: 'Playfair Display', serif; font-size: 28px; color: #1e3a5f; font-weight: 700; letter-spacing: 2px; }
           .content { padding: 30px 0; }
           .field { display: flex; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px dotted #ccc; }
           .field-label { width: 180px; font-weight: 500; color: #1e3a5f; }
@@ -67,8 +67,8 @@ export default function Death() {
         <body>
           <div class="certificate">
             <div class="header">
+              <div class="church-name">${churchSettings.name}</div>
               <div class="title">Certificate of Death</div>
-              <div class="subtitle">Official Church Record</div>
             </div>
             <div class="content">
               <div class="field"><span class="field-label">Full Name</span><span class="field-value">${record.name}</span></div>

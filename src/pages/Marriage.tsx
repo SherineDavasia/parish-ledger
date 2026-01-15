@@ -14,7 +14,7 @@ import { format } from 'date-fns';
 
 export default function Marriage() {
   const navigate = useNavigate();
-  const { marriageRecords, addMarriageRecord, deleteMarriageRecord } = useRecords();
+  const { marriageRecords, addMarriageRecord, deleteMarriageRecord, churchSettings } = useRecords();
   const { toast } = useToast();
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState('');
@@ -58,8 +58,8 @@ export default function Marriage() {
             border: 1px solid #d4a574; pointer-events: none;
           }
           .header { text-align: center; margin-bottom: 40px; padding-bottom: 20px; border-bottom: 2px solid #d4a574; }
-          .title { font-family: 'Playfair Display', serif; font-size: 32px; color: #1e3a5f; font-weight: 700; letter-spacing: 2px; margin-bottom: 10px; }
-          .subtitle { font-size: 14px; color: #666; letter-spacing: 4px; text-transform: uppercase; }
+          .church-name { font-family: 'Playfair Display', serif; font-size: 24px; color: #1e3a5f; font-weight: 600; letter-spacing: 1px; margin-bottom: 8px; }
+          .title { font-family: 'Playfair Display', serif; font-size: 28px; color: #1e3a5f; font-weight: 700; letter-spacing: 2px; }
           .content { padding: 30px 0; }
           .couple-section { display: flex; justify-content: space-around; margin-bottom: 30px; }
           .person { text-align: center; flex: 1; padding: 0 20px; }
@@ -81,8 +81,8 @@ export default function Marriage() {
         <body>
           <div class="certificate">
             <div class="header">
+              <div class="church-name">${churchSettings.name}</div>
               <div class="title">Certificate of Marriage</div>
-              <div class="subtitle">Official Church Record</div>
             </div>
             <div class="content">
               <div class="couple-section">

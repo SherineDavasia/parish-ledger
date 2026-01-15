@@ -69,10 +69,10 @@ export default function Login() {
           <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-white/10 backdrop-blur-sm mb-6">
             <Church className="h-10 w-10 text-accent" />
           </div>
-          <h1 className="text-4xl md:text-5xl font-serif font-bold text-accent mb-3">
+          <h1 className="text-4xl md:text-5xl font-serif font-bold text-primary-foreground mb-3">
             Church Certificate
           </h1>
-          <p className="text-lg text-accent/80 max-w-md">
+          <p className="text-lg text-primary-foreground/80 max-w-md">
             Management System for Baptism, Marriage & Death Certificates
           </p>
         </div>

@@ -70,7 +70,7 @@ export default function Login() {
             <Church className="h-10 w-10 text-accent" />
           </div>
           <h1 className="text-4xl md:text-5xl font-serif font-bold text-primary-foreground mb-3">
-            Church Certificate
+            Parish Ledger
           </h1>
           <p className="text-lg text-primary-foreground/80 max-w-md">
             Management System for Baptism, Marriage & Death Certificates

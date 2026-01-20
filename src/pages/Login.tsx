@@ -62,8 +62,8 @@ export default function Login() {
 
       <div className="relative z-10 h-full flex flex-col items-center justify-center px-4">
         <div className="text-center mb-6 animate-fade-in-up">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white/10 backdrop-blur-sm mb-3">
-            <Church className="h-8 w-8 text-accent" />
+          <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-white/10 backdrop-blur-sm mb-3">
+            <Church className="h-12 w-12 text-primary" />
           </div>
           <h1 className="text-3xl font-serif font-bold text-primary-foreground">
             Parish Ledger

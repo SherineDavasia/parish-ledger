@@ -11,7 +11,7 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Demo users for testing
+// Demo users for testing (optional - you can remove if not needed)
 const DEMO_USERS: { email: string; password: string; user: User }[] = [
   {
     email: 'priest@church.com',
@@ -35,6 +35,15 @@ const DEMO_USERS: { email: string; password: string; user: User }[] = [
   },
 ];
 
+// Helper function to generate unique ID
+const generateId = (): string => {
+  if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+    return crypto.randomUUID();
+  }
+  // Fallback for environments without crypto.randomUUID
+  return `user-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
+};
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -42,46 +51,71 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const login = useCallback(async (email: string, password: string): Promise<boolean> => {
     setIsLoading(true);
     
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    // Allow any email/password for now
-    if (email && password) {
-      const userName = email.split('@')[0].replace(/[._]/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-      setUser({
-        id: crypto.randomUUID(),
+    try {
+      // Simulate API call delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Validate inputs
+      if (!email || !password) {
+        return false;
+      }
+
+      // Check for demo users first (optional)
+      const demoUser = DEMO_USERS.find(
+        (u) => u.email.toLowerCase() === email.toLowerCase() && u.password === password
+      );
+
+      if (demoUser) {
+        setUser(demoUser.user);
+        return true;
+      }
+
+      // Allow any email/password for development
+      // Remove this block in production and add real authentication
+      const userName = email
+        .split('@')[0]
+        .replace(/[._]/g, ' ')
+        .replace(/\b\w/g, (l) => l.toUpperCase());
+
+      const newUser: User = {
+        id: generateId(),
         email: email,
         name: userName,
         role: 'priest',
-      });
-      setIsLoading(false);
+      };
+
+      setUser(newUser);
       return true;
+
+    } catch (error) {
+      console.error('Login error:', error);
+      return false;
+    } finally {
+      // This ALWAYS runs, ensuring isLoading is reset
+      setIsLoading(false);
     }
-    
-    setIsLoading(false);
-    return false;
   }, []);
 
   const logout = useCallback(() => {
     setUser(null);
   }, []);
 
+  const value: AuthContextType = {
+    user,
+    isAuthenticated: !!user,
+    login,
+    logout,
+    isLoading,
+  };
+
   return (
-    <AuthContext.Provider
-      value={{
-        user,
-        isAuthenticated: !!user,
-        login,
-        logout,
-        isLoading,
-      }}
-    >
+    <AuthContext.Provider value={value}>
       {children}
     </AuthContext.Provider>
   );
 }
 
-export function useAuth() {
+export function useAuth(): AuthContextType {
   const context = useContext(AuthContext);
   if (context === undefined) {
     throw new Error('useAuth must be used within an AuthProvider');

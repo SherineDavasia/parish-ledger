@@ -4,7 +4,7 @@ import { Church, Mail, Lock, Eye, EyeOff, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 
@@ -17,17 +17,21 @@ export default function Login() {
   const location = useLocation();
   const { toast } = useToast();
 
+  // Get the redirect path from location state, or default to dashboard
   const from = location.state?.from?.pathname || '/dashboard';
 
+  // Redirect if already authenticated (only on mount)
   useEffect(() => {
     if (isAuthenticated) {
       navigate(from, { replace: true });
     }
-  }, [isAuthenticated, navigate, from]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Empty dependency array - only run on mount
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    // Validate inputs
     if (!email || !password) {
       toast({
         title: 'Error',
@@ -37,17 +41,28 @@ export default function Login() {
       return;
     }
 
-    const success = await login(email, password);
-    
-    if (success) {
+    try {
+      const success = await login(email, password);
+      
+      if (success) {
+        toast({
+          title: 'Welcome!',
+          description: 'You have successfully signed in.',
+        });
+        // Navigate directly after successful login
+        navigate(from, { replace: true });
+      } else {
+        toast({
+          title: 'Login Failed',
+          description: 'Invalid email or password. Try: priest@church.com / password123',
+          variant: 'destructive',
+        });
+      }
+    } catch (error) {
+      console.error('Login error:', error);
       toast({
-        title: 'Welcome!',
-        description: 'You have successfully signed in.',
-      });
-    } else {
-      toast({
-        title: 'Login Failed',
-        description: 'Invalid email or password. Try: priest@church.com / password123',
+        title: 'Error',
+        description: 'Something went wrong. Please try again.',
         variant: 'destructive',
       });
     }
@@ -55,6 +70,7 @@ export default function Login() {
 
   return (
     <div className="h-screen w-screen fixed inset-0 overflow-hidden">
+      {/* Background with pattern */}
       <div 
         className="absolute inset-0 bg-gradient-to-br from-primary via-primary/90 to-primary/80"
         style={{
@@ -62,10 +78,16 @@ export default function Login() {
         }}
       />
       
+      {/* Decorative blurred circles */}
       <div className="absolute top-20 left-10 w-32 h-32 bg-accent/10 rounded-full blur-3xl animate-float" />
-      <div className="absolute bottom-20 right-10 w-40 h-40 bg-accent/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '-3s' }} />
+      <div 
+        className="absolute bottom-20 right-10 w-40 h-40 bg-accent/10 rounded-full blur-3xl animate-float" 
+        style={{ animationDelay: '-3s' }} 
+      />
 
+      {/* Main content */}
       <div className="relative z-10 h-full flex flex-col items-center justify-center px-4">
+        {/* Logo and title */}
         <div className="text-center mb-6 animate-fade-in-up">
           <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-white/10 backdrop-blur-sm mb-3">
             <Church className="h-12 w-12 text-primary" />
@@ -75,12 +97,14 @@ export default function Login() {
           </h1>
         </div>
 
-          <Card className="w-full max-w-sm glass animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-            <CardHeader className="text-center pb-2 pt-4">
-              <CardTitle className="text-xl font-serif">Parish Ledger</CardTitle>
-            </CardHeader>
+        {/* Login Card */}
+        <Card className="w-full max-w-sm glass animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+          <CardHeader className="text-center pb-2 pt-4">
+            <CardTitle className="text-xl font-serif">Parish Ledger</CardTitle>
+          </CardHeader>
           <CardContent className="pb-4">
             <form onSubmit={handleSubmit} className="space-y-4">
+              {/* Email field */}
               <div className="space-y-1.5">
                 <Label htmlFor="email" className="text-sm">Email</Label>
                 <div className="relative">
@@ -93,10 +117,12 @@ export default function Login() {
                     onChange={(e) => setEmail(e.target.value)}
                     className="pl-9 h-9"
                     autoComplete="email"
+                    disabled={isLoading}
                   />
                 </div>
               </div>
 
+              {/* Password field */}
               <div className="space-y-1.5">
                 <Label htmlFor="password" className="text-sm">Password</Label>
                 <div className="relative">
@@ -109,17 +135,24 @@ export default function Login() {
                     onChange={(e) => setPassword(e.target.value)}
                     className="pl-9 pr-9 h-9"
                     autoComplete="current-password"
+                    disabled={isLoading}
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                    disabled={isLoading}
                   >
-                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    {showPassword ? (
+                      <EyeOff className="h-4 w-4" />
+                    ) : (
+                      <Eye className="h-4 w-4" />
+                    )}
                   </button>
                 </div>
               </div>
 
+              {/* Submit button */}
               <Button type="submit" className="w-full" disabled={isLoading}>
                 {isLoading ? (
                   <>
@@ -134,6 +167,7 @@ export default function Login() {
           </CardContent>
         </Card>
 
+        {/* Footer */}
         <p className="mt-4 text-white/40 text-xs">
           © 2024 Parish Ledger
         </p>

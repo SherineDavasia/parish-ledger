@@ -70,13 +70,10 @@ export default function Login() {
           </h1>
         </div>
 
-        <Card className="w-full max-w-sm glass animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-          <CardHeader className="text-center pb-2 pt-4">
-            <CardTitle className="text-xl font-serif">Welcome</CardTitle>
-            <CardDescription className="text-sm">
-              Enter any credentials to sign in
-            </CardDescription>
-          </CardHeader>
+          <Card className="w-full max-w-sm glass animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+            <CardHeader className="text-center pb-2 pt-4">
+              <CardTitle className="text-xl font-serif">Parish Ledger</CardTitle>
+            </CardHeader>
           <CardContent className="pb-4">
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-1.5">

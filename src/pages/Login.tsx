@@ -49,8 +49,7 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen relative overflow-hidden">
-      {/* Parallax Background */}
+    <div className="h-screen w-screen fixed inset-0 overflow-hidden">
       <div 
         className="absolute inset-0 bg-gradient-to-br from-primary via-primary/90 to-primary/80"
         style={{
@@ -58,62 +57,55 @@ export default function Login() {
         }}
       />
       
-      {/* Floating Elements */}
       <div className="absolute top-20 left-10 w-32 h-32 bg-accent/10 rounded-full blur-3xl animate-float" />
       <div className="absolute bottom-20 right-10 w-40 h-40 bg-accent/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '-3s' }} />
-      <div className="absolute top-1/2 left-1/4 w-24 h-24 bg-white/5 rounded-full blur-2xl animate-float" style={{ animationDelay: '-1.5s' }} />
 
-      <div className="relative z-10 min-h-screen flex flex-col items-center justify-center p-4">
-        {/* Logo and Title */}
-        <div className="text-center mb-8 animate-fade-in-up">
-          <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-white/10 backdrop-blur-sm mb-6">
-            <Church className="h-10 w-10 text-accent" />
+      <div className="relative z-10 h-full flex flex-col items-center justify-center px-4">
+        <div className="text-center mb-6 animate-fade-in-up">
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white/10 backdrop-blur-sm mb-3">
+            <Church className="h-8 w-8 text-accent" />
           </div>
-          <h1 className="text-4xl md:text-5xl font-serif font-bold text-primary-foreground mb-3">
+          <h1 className="text-3xl font-serif font-bold text-primary-foreground">
             Parish Ledger
           </h1>
-          <p className="text-lg text-primary-foreground/80 max-w-md">
-            Management System for Baptism, Marriage & Death Certificates
-          </p>
         </div>
 
-        {/* Login Card */}
-        <Card className="w-full max-w-md glass animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-          <CardHeader className="text-center pb-4">
-            <CardTitle className="text-2xl font-serif">Welcome</CardTitle>
-            <CardDescription>
-              Sign in for existing users • Sign up for new users
+        <Card className="w-full max-w-sm glass animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+          <CardHeader className="text-center pb-2 pt-4">
+            <CardTitle className="text-xl font-serif">Welcome</CardTitle>
+            <CardDescription className="text-sm">
+              Enter any credentials to sign in
             </CardDescription>
           </CardHeader>
-          <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-5">
-              <div className="space-y-2">
-                <Label htmlFor="email">Email Address</Label>
+          <CardContent className="pb-4">
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="space-y-1.5">
+                <Label htmlFor="email" className="text-sm">Email</Label>
                 <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                   <Input
                     id="email"
                     type="email"
-                    placeholder="priest@church.com"
+                    placeholder="demo@church.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="pl-10"
+                    className="pl-9 h-9"
                     autoComplete="email"
                   />
                 </div>
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="password">Password</Label>
+              <div className="space-y-1.5">
+                <Label htmlFor="password" className="text-sm">Password</Label>
                 <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                   <Input
                     id="password"
                     type={showPassword ? 'text' : 'password'}
                     placeholder="••••••••"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="pl-10 pr-10"
+                    className="pl-9 pr-9 h-9"
                     autoComplete="current-password"
                   />
                   <button
@@ -121,34 +113,27 @@ export default function Login() {
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
                   >
-                    {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                   </button>
                 </div>
               </div>
 
-              <div className="flex gap-3">
-                <Button type="submit" className="flex-1" size="lg" disabled={isLoading}>
-                  {isLoading ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Signing in...
-                    </>
-                  ) : (
-                    'Sign In'
-                  )}
-                </Button>
-                <Button type="submit" variant="outline" className="flex-1" size="lg" disabled={isLoading}>
-                  Sign Up
-                </Button>
-              </div>
+              <Button type="submit" className="w-full" disabled={isLoading}>
+                {isLoading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Signing in...
+                  </>
+                ) : (
+                  'Sign In'
+                )}
+              </Button>
             </form>
-
           </CardContent>
         </Card>
 
-        {/* Footer */}
-        <p className="mt-8 text-white/50 text-sm animate-fade-in" style={{ animationDelay: '0.4s' }}>
-          © 2024 Church Certificate Management System
+        <p className="mt-4 text-white/40 text-xs">
+          © 2024 Parish Ledger
         </p>
       </div>
     </div>

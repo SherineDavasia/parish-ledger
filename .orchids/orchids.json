@@ -1,7 +1,0 @@
-{
-  "projectId": "b34caed3-0fca-43fb-ace3-8c4637a4fa20",
-  "createdAt": 1768915804185,
-  "startupCommands": [
-    "npm.cmd install; node node_modules\\vite\\bin\\vite.js"
-  ]
-}

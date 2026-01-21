@@ -146,11 +146,14 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
       </div>
 
       {/* Main Content */}
-      <main className="flex-1 lg:pl-64">
-        <div className="pt-16 lg:pt-0 min-h-screen">
-          {children}
-        </div>
-      </main>
+<main className="flex-1 lg:pl-64 flex flex-col">
+  <div className="pt-16 lg:pt-0 flex-1">
+    {children}
+  </div>
+  <footer className="lg:pl-0 py-4 text-center text-sm text-muted-foreground border-t">
+    © {new Date().getFullYear()} ShineDigitals. All rights reserved.
+  </footer>
+</main>
     </div>
   );
 }
